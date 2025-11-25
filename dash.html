@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        .sparkline-chart { height: 50px; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <div class="flex flex-col w-64 bg-gray-800 text-white shadow-lg">
+            <div class="h-16 flex items-center justify-center border-b border-gray-700">
+                <span class="text-xl font-semibold">Super Admin</span>
+            </div>
+            <nav class="flex-1 px-2 py-4 space-y-2">
+                <a href="#" class="flex items-center px-4 py-2 rounded-lg bg-gray-900 text-white transition duration-200">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-10l-2-2m2 2v10a1 1 0 01-1 1h-3m-6 0v-4a1 1 0 011-1h2a1 1 0 011 1v4m-6-4h4"></path></svg>
+                    Dashboard
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2h14zm-4 0a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"></path></svg>
+                    Restaurants
+                </a>
+                </nav>
+        </div>
+        
+        <div class="flex-1 flex flex-col overflow-auto">
+            
+            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-md">
+                <h1 class="text-xl font-semibold text-gray-800">Overview</h1>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-500 hover:text-gray-700 relative">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.405L4 17h5m6 0v2a3 3 0 11-6 0v-2m6 0H9" /></svg>
+                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">5</span>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm font-medium text-gray-700">Super Admin</span>
+                        <div class="h-8 w-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-sm font-bold">SA</div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 p-6 overflow-y-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-indigo-500">
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Restaurants</p>
+                        <div class="flex items-center justify-between">
+                            <p class="text-3xl font-bold text-gray-900 mt-1">1,200</p>
+                            <canvas id="totalRestaurantsChart" class="sparkline-chart"></canvas>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2">+5% since last month</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-yellow-500">
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Approval</p>
+                        <div class="flex items-center justify-between">
+                            <p class="text-3xl font-bold text-gray-900 mt-1">45</p>
+                            <canvas id="pendingRestaurantsChart" class="sparkline-chart"></canvas>
+                        </div>
+                        <p class="text-xs text-red-500 mt-2">Needs immediate attention</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-green-500">
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Active Subscriptions</p>
+                        <div class="flex items-center justify-between">
+                            <p class="text-3xl font-bold text-gray-900 mt-1">850</p>
+                            <canvas id="activeSubscriptionsChart" class="sparkline-chart"></canvas>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2">90% retention rate</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-blue-500">
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Monthly Revenue</p>
+                        <div class="flex items-center justify-between">
+                            <p class="text-3xl font-bold text-gray-900 mt-1">$45,000</p>
+                            <canvas id="revenueChart" class="sparkline-chart"></canvas>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2">+12% from last month</p>
+                    </div>
+                </div>
+                
+                <div class="mb-8 flex flex-wrap gap-4">
+                    <button class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 ease-in-out flex items-center">
+                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                        Add Subscription Plan
+                    </button>
+                    <button class="px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg shadow-md hover:bg-yellow-600 transition duration-150 ease-in-out flex items-center">
+                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.405L4 17h5m6 0v2a3 3 0 11-6 0v-2m6 0H9" /></svg>
+                        View Pending Restaurants (45)
+                    </button>
+                    <button class="px-4 py-2 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 transition duration-150 ease-in-out flex items-center">
+                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                        View Analytics
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Revenue Trend (Last 6 Months)</h3>
+                    <div class="h-80">
+                        <canvas id="largeRevenueChart"></canvas>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const data1 = [12, 19, 3, 5, 2, 3];
+        const data2 = [5, 10, 8, 15, 12, 18];
+        const data3 = [20, 15, 25, 30, 22, 28];
+        const data4 = [1000, 1200, 1100, 1500, 1800, 2000];
+        
+        function createSparkline(ctxId, data, color) {
+            new Chart(document.getElementById(ctxId).getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: data,
+                        borderColor: color,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: false,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: { display: false },
+                    tooltip: { enabled: false },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    },
+                    layout: { padding: 0 }
+                }
+            });
+        }
+
+        createSparkline('totalRestaurantsChart', data1, 'rgb(79, 70, 229)');
+        createSparkline('pendingRestaurantsChart', data2, 'rgb(245, 158, 11)'); 
+        createSparkline('activeSubscriptionsChart', data3, 'rgb(34, 197, 94)'); 
+        createSparkline('revenueChart', data4, 'rgb(59, 130, 246)'); 
+        
+        new Chart(document.getElementById('largeRevenueChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Monthly Revenue',
+                    data: [35000, 38000, 37000, 42000, 45000, 48000],
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
