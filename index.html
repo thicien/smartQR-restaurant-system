@@ -78,14 +78,13 @@
             eyeOpen.classList.toggle('hidden', !isPassword);
             eyeClosed.classList.toggle('hidden', isPassword);
         });
-
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
             loginButton.disabled = true;
             loadingSpinner.classList.remove('hidden');
             errorMessage.classList.add('hidden');
-
+            
             setTimeout(() => {
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
