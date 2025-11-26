@@ -1,0 +1,164 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="p-6 bg-gray-100 min-h-screen">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">🍔 Restaurant Approval Management</h2>
+    
+    <div class="bg-white p-4 rounded-lg shadow-md mb-6 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <input type="text" id="restaurant-search" placeholder="Search by name or owner..." class="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" onkeyup="filterRestaurants()">
+        
+        <div class="flex space-x-4">
+            <label for="status-filter" class="text-gray-700 font-medium self-center">Filter by Status:</label>
+            <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" onchange="filterRestaurants()">
+                <option value="All">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-xl overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200" id="restaurant-table">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Restaurant Name</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Owner Name</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200" id="restaurant-list">
+                </tbody>
+        </table>
+    </div>
+    
+    <div id="rejection-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-bold mb-4">Reject Restaurant</h3>
+            <p class="mb-4">Please provide a reason for rejecting the restaurant:</p>
+            <textarea id="rejection-reason" rows="4" class="w-full p-2 border rounded-md"></textarea>
+            <div class="flex justify-end space-x-4 mt-4">
+                <button onclick="closeModal()" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Cancel</button>
+                <button onclick="submitRejection()" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Submit Rejection</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Simulated Restaurant Data
+    const restaurants = [
+        { id: 1, name: 'Pizza Paradise', location: 'New York', owner: 'John Doe', status: 'Pending' },
+        { id: 2, name: 'Taco Heaven', location: 'Los Angeles', owner: 'Jane Smith', status: 'Approved' },
+        { id: 3, name: 'Vegan Delight', location: 'Austin', owner: 'Alex Lee', status: 'Pending' },
+        { id: 4, name: 'Steak House', location: 'Miami', owner: 'Bob Johnson', status: 'Rejected' },
+        { id: 5, name: 'The Sushi Spot', location: 'Seattle', owner: 'Kenji Tanaka', status: 'Approved' },
+    ];
+    
+    let currentRestaurantId = null;
+
+    function getStatusBadge(status) {
+        switch (status) {
+            case 'Pending': return '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>';
+            case 'Approved': return '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>';
+            case 'Rejected': return '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>';
+            default: return '';
+        }
+    }
+
+    function renderRestaurantList(list) {
+        const listContainer = document.getElementById('restaurant-list');
+        listContainer.innerHTML = ''; // Clear existing list
+        
+        list.forEach(restaurant => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50';
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${restaurant.name}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${restaurant.location}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${restaurant.owner}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">${getStatusBadge(restaurant.status)}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    <button onclick="viewDetails(${restaurant.id})" class="text-indigo-600 hover:text-indigo-900">View</button>
+                    ${restaurant.status === 'Pending' ? 
+                        `<button onclick="approveRestaurant(${restaurant.id})" class="text-green-600 hover:text-green-900">Approve</button>
+                        <button onclick="openModal(${restaurant.id})" class="text-red-600 hover:text-red-900">Reject</button>` : ''
+                    }
+                </td>
+            `;
+            listContainer.appendChild(row);
+        });
+    }
+
+    function filterRestaurants() {
+        const searchTerm = document.getElementById('restaurant-search').value.toLowerCase();
+        const statusFilter = document.getElementById('status-filter').value;
+        
+        const filteredList = restaurants.filter(restaurant => {
+            const matchesSearch = restaurant.name.toLowerCase().includes(searchTerm) || 
+                                  restaurant.owner.toLowerCase().includes(searchTerm);
+            const matchesStatus = statusFilter === 'All' || restaurant.status === statusFilter;
+            
+            return matchesSearch && matchesStatus;
+        });
+        
+        renderRestaurantList(filteredList);
+    }
+    
+    // Initial load
+    renderRestaurantList(restaurants);
+
+    // Simulated Actions
+    function viewDetails(id) {
+        alert('Viewing details for restaurant ID: ' + id + '. (In a real app, this would load the Restaurant Details Page)');
+        // In reality, this would navigate to the details page (e.g., using a framework router)
+        // loadRestaurantDetailsPage(id); 
+    }
+
+    function approveRestaurant(id) {
+        const restaurant = restaurants.find(r => r.id === id);
+        if (confirm(`Are you sure you want to APPROVE ${restaurant.name}?`)) {
+            restaurant.status = 'Approved';
+            filterRestaurants(); // Re-render the list
+            alert(`${restaurant.name} has been Approved.`);
+        }
+    }
+
+    // Modal Functions
+    function openModal(id) {
+        currentRestaurantId = id;
+        document.getElementById('rejection-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('rejection-modal').classList.add('hidden');
+        document.getElementById('rejection-reason').value = '';
+        currentRestaurantId = null;
+    }
+
+    function submitRejection() {
+        const restaurant = restaurants.find(r => r.id === currentRestaurantId);
+        const reason = document.getElementById('rejection-reason').value.trim();
+
+        if (!reason) {
+            alert('Please provide a reason for rejection.');
+            return;
+        }
+
+        restaurant.status = 'Rejected';
+        // In a real application, you'd send the reason to the backend
+        alert(`${restaurant.name} has been Rejected with reason: "${reason}"`);
+        
+        closeModal();
+        filterRestaurants(); // Re-render the list
+    }
+</script>
+</body>
+</html>
