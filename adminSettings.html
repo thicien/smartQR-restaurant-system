@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    
+    <div class="p-6 bg-gray-100 min-h-screen">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">⚙️ Admin Settings</h2>
+    
+    <div class="bg-white p-6 rounded-lg shadow-xl border border-gray-200 mb-8 max-w-2xl mx-auto">
+        <h3 class="text-2xl font-semibold border-b pb-3 mb-4 text-gray-700">👤 Update Profile Information</h3>
+        <form id="profile-form" class="space-y-4">
+            
+            <div>
+                <label for="admin-name" class="block text-sm font-medium text-gray-700">Admin Name</label>
+                <input type="text" id="admin-name" value="Super Admin" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div>
+                <label for="admin-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                <input type="email" id="admin-email" value="superadmin@company.com" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div class="pt-4">
+                <button type="submit" class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 ease-in-out">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    ---
+
+    <div class="bg-white p-6 rounded-lg shadow-xl border border-gray-200 max-w-2xl mx-auto">
+        <h3 class="text-2xl font-semibold border-b pb-3 mb-4 text-gray-700">🔒 Change Password</h3>
+        <form id="password-form" class="space-y-4">
+            
+            <div>
+                <label for="current-password" class="block text-sm font-medium text-gray-700">Current Password</label>
+                <input type="password" id="current-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div>
+                <label for="new-password" class="block text-sm font-medium text-gray-700">New Password</label>
+                <input type="password" id="new-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                <p id="password-hint" class="text-xs text-gray-500 mt-1">Must be at least 8 characters long.</p>
+            </div>
+            
+            <div>
+                <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                <input type="password" id="confirm-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                <p id="match-error" class="text-xs text-red-500 mt-1 hidden">Passwords do not match.</p>
+            </div>
+            
+            <div class="pt-4">
+                <button type="submit" id="change-password-button" class="px-6 py-2 bg-red-600 text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-150 ease-in-out">
+                    Change Password
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    // --- Profile Form Logic (Simulated) ---
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('admin-name').value;
+        const email = document.getElementById('admin-email').value;
+
+        // In a real application, send data to the backend API here.
+        console.log('Profile update attempt:', { name, email });
+        alert(`Profile updated successfully for ${name} (${email}).`);
+    });
+
+    // --- Password Form Logic (Simulated) ---
+    const passwordForm = document.getElementById('password-form');
+    const newPassword = document.getElementById('new-password');
+    const confirmPassword = document.getElementById('confirm-password');
+    const matchError = document.getElementById('match-error');
+
+    function checkPasswordMatch() {
+        if (newPassword.value !== confirmPassword.value) {
+            matchError.classList.remove('hidden');
+            document.getElementById('change-password-button').disabled = true;
+            return false;
+        } else {
+            matchError.classList.add('hidden');
+            document.getElementById('change-password-button').disabled = false;
+            return true;
+        }
+    }
+    
+    // Check match instantly as user types
+    newPassword.addEventListener('input', checkPasswordMatch);
+    confirmPassword.addEventListener('input', checkPasswordMatch);
+
+
+    passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!checkPasswordMatch()) {
+            alert('Error: New passwords do not match. Please correct them.');
+            return;
+        }
+        
+        const currentPass = document.getElementById('current-password').value;
+        const newPass = newPassword.value;
+        
+        if (newPass.length < 8) {
+            alert('Error: New password must be at least 8 characters.');
+            return;
+        }
+
+        // Simulated check against a stored password (e.g., 'password123')
+        if (currentPass !== 'password123') {
+            alert('Error: Current password is incorrect.');
+            return;
+        }
+
+        // In a real application, send data to the backend API here.
+        console.log('Password change attempt:', { currentPass, newPass });
+        alert('Password changed successfully! You will be logged out on a real system.');
+        
+        passwordForm.reset();
+    });
+</script>
+</body>
+</html>
