@@ -1,0 +1,188 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="p-6 bg-gray-100 min-h-screen">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">💰 Subscription Plans Management</h2>
+    
+    <div class="flex justify-end mb-6">
+        <button onclick="openPlanModal('new')" class="px-5 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 ease-in-out flex items-center">
+            <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+            Add New Plan
+        </button>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-xl overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan Name</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Features</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200" id="plans-list">
+                </tbody>
+        </table>
+    </div>
+    
+    <div id="plan-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-20">
+        <div class="relative top-10 mx-auto p-6 border w-11/12 md:w-1/2 shadow-lg rounded-md bg-white">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4 text-gray-800">Add New Plan</h3>
+            <form id="plan-form" class="space-y-4">
+                <div>
+                    <label for="plan-name" class="block text-sm font-medium text-gray-700">Plan Name</label>
+                    <input type="text" id="plan-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                 <div>
+                    <label for="plan-price" class="block text-sm font-medium text-gray-700">Price ($)</label>
+                    <input type="number" id="plan-price" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="plan-duration" class="block text-sm font-medium text-gray-700">Duration (Days)</label>
+                        <input type="number" id="plan-duration" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="plan-status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <select id="plan-status" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="Active">Active</option>
+                            <option value="Archived">Archived</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="plan-features" class="block text-sm font-medium text-gray-700">Features (Comma Separated)</label>
+                    <textarea id="plan-features" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-4">
+                    <button type="button" onclick="closePlanModal()" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Save Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Simulated Plan Data
+    const plans = [
+        { id: 101, name: 'Basic', duration: 30, price: 9.99, features: ['10 Menu Items', 'Basic Analytics'], status: 'Active' },
+        { id: 102, name: 'Pro', duration: 30, price: 29.99, features: ['Unlimited Menu Items', 'Advanced Analytics', 'Priority Support'], status: 'Active' },
+        { id: 103, name: 'Premium Yearly', duration: 365, price: 299.99, features: ['All Pro features', 'Dedicated Account Manager', 'Custom Branding'], status: 'Active' },
+        { id: 104, name: 'Legacy Starter', duration: 30, price: 4.99, features: ['5 Menu Items'], status: 'Archived' },
+    ];
+    
+    let currentPlanId = null;
+
+    function getPlanStatusBadge(status) {
+        if (status === 'Active') {
+            return '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>';
+        }
+        return '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Archived</span>';
+    }
+
+    function renderPlansList() {
+        const listContainer = document.getElementById('plans-list');
+        listContainer.innerHTML = '';
+        
+        plans.forEach(plan => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50';
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${plan.name}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${plan.duration} days</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">$${plan.price.toFixed(2)}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${plan.features.length} features</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">${getPlanStatusBadge(plan.status)}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    <button onclick="openPlanModal('edit', ${plan.id})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+                    <button onclick="deletePlan(${plan.id})" class="text-red-600 hover:text-red-900">Delete</button>
+                </td>
+            `;
+            listContainer.appendChild(row);
+        });
+    }
+
+    function openPlanModal(mode, id = null) {
+        const title = document.getElementById('modal-title');
+        const form = document.getElementById('plan-form');
+        form.reset(); 
+        currentPlanId = id;
+
+        if (mode === 'edit' && id !== null) {
+            title.textContent = 'Edit Subscription Plan';
+            const plan = plans.find(p => p.id === id);
+            if (plan) {
+                document.getElementById('plan-name').value = plan.name;
+                document.getElementById('plan-price').value = plan.price;
+                document.getElementById('plan-duration').value = plan.duration;
+                document.getElementById('plan-status').value = plan.status;
+                document.getElementById('plan-features').value = plan.features.join(', ');
+            }
+        } else {
+            title.textContent = 'Add New Plan';
+        }
+        
+        document.getElementById('plan-modal').classList.remove('hidden');
+    }
+
+    function closePlanModal() {
+        document.getElementById('plan-modal').classList.add('hidden');
+        document.getElementById('plan-form').reset();
+        currentPlanId = null;
+    }
+    
+    document.getElementById('plan-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newPlan = {
+            name: document.getElementById('plan-name').value,
+            price: parseFloat(document.getElementById('plan-price').value),
+            duration: parseInt(document.getElementById('plan-duration').value),
+            status: document.getElementById('plan-status').value,
+            features: document.getElementById('plan-features').value.split(',').map(f => f.trim()),
+        };
+
+        if (currentPlanId) {
+            // Edit mode
+            const index = plans.findIndex(p => p.id === currentPlanId);
+            if (index !== -1) {
+                plans[index] = { ...plans[index], ...newPlan };
+                alert('Plan updated successfully!');
+            }
+        } else {
+            // New mode
+            newPlan.id = Date.now(); // Simple ID generation
+            plans.push(newPlan);
+            alert('New plan added successfully!');
+        }
+
+        closePlanModal();
+        renderPlansList();
+    });
+
+    function deletePlan(id) {
+        if (confirm('Are you sure you want to delete this subscription plan?')) {
+            const index = plans.findIndex(p => p.id === id);
+            if (index > -1) {
+                plans.splice(index, 1);
+                renderPlansList();
+                alert('Plan deleted.');
+            }
+        }
+    }
+
+    // Initial load
+    renderPlansList();
+</script>
+</body>
+</html>
