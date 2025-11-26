@@ -153,15 +153,13 @@
         };
 
         if (currentPlanId) {
-            // Edit mode
             const index = plans.findIndex(p => p.id === currentPlanId);
             if (index !== -1) {
                 plans[index] = { ...plans[index], ...newPlan };
                 alert('Plan updated successfully!');
             }
         } else {
-            // New mode
-            newPlan.id = Date.now(); // Simple ID generation
+            newPlan.id = Date.now(); 
             plans.push(newPlan);
             alert('New plan added successfully!');
         }

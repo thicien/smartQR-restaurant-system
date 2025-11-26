@@ -80,36 +80,19 @@
 </div>
 
 <script>
-    // This script block will primarily contain the initialization logic for the charting libraries.
-    // Since we are not including the libraries themselves in this response, we'll leave a placeholder function.
-
     function initializeCharts(period = 'monthly') {
         console.log(`Initializing charts for the ${period} period...`);
-
-        // --- Simulated Chart Logic Placeholder ---
-        
-        // 1. Orders Chart (e.g., Line chart showing orders count over time)
-        // new Chart(document.getElementById('ordersChart'), { type: 'line', data: { /* ... */ } });
-        
-        // 2. Revenue Chart (e.g., Bar chart comparing subscription revenue vs. transaction fees)
-        // new ApexCharts(document.getElementById('revenueChart'), { series: [ /* ... */ ] }).render();
-
-        // 3. Growth Chart (e.g., Area chart for new restaurant signups)
-        // new Recharts... 
 
         const chartPlaceholders = document.querySelectorAll('.chart-placeholder');
         chartPlaceholders.forEach(el => {
             el.innerHTML = `<p class="text-gray-400 text-center">Chart data visualization for ${period} goes here.</p>`;
         });
-        // --- End of Placeholder ---
     }
     
-    // Listen for changes in the time period filter
     document.getElementById('time-period').addEventListener('change', (e) => {
         initializeCharts(e.target.value);
     });
 
-    // Initial chart load
     initializeCharts(); 
 </script>
 </body>
