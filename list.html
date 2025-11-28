@@ -11,31 +11,31 @@
   <header class="bg-white shadow p-4">
     <h1 class="text-2xl font-bold text-gray-700">Restaurant Approval Management</h1>
   </header>
-  <div class="max-w-6xl mx-auto mt-8 p-4">
-    <div id="restaurantListPage">
-      <h2 class="text-xl font-semibold mb-4">Restaurant List</h2>
+    <div class="max-w-6xl mx-auto mt-8 p-4">
+        <div id="restaurantListPage">
+         <h2 class="text-xl font-semibold mb-4">Restaurant List</h2>
 
-      <table class="min-w-full bg-white rounded shadow">
-        <thead>
-          <tr class="bg-gray-200 text-left text-sm font-semibold">
-            <th class="p-3">Name</th>
-            <th class="p-3">Location</th>
-            <th class="p-3">Owner</th>
-            <th class="p-3">Status</th>
-            <th class="p-3">Actions</th>
-          </tr>
+         <table class="min-w-full bg-white rounded shadow">
+          <thead>
+                <tr class="bg-gray-200 text-left text-sm font-semibold">
+                  <th class="p-3">Name</th>
+                  <th class="p-3">Location</th>
+                  <th class="p-3">Owner</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3">Actions</th>
+                </tr>
         </thead>
         <tbody id="restaurantTable"></tbody>
       </table>
-    </div>
-    <div id="restaurantDetailsPage" class="hidden">
+     </div>
+     <div id="restaurantDetailsPage" class="hidden">
       <button onclick="showRestaurantList()" class="mb-4 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
         ← Back
       </button>
 
       <div id="restaurantDetails"></div>
+     </div>
     </div>
-  </div>
 
   <div id="rejectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-20">
     <div class="bg-white p-6 rounded shadow-lg w-96">
@@ -348,7 +348,7 @@
       alert("Restaurant rejected.");
       showRestaurantList();
     }
-    
+
     loadRestaurantList();
   </script>
 
