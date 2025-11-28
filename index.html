@@ -3,100 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Admin Login</title>
+    <title>Super Admin Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
     <div class="w-full max-w-md">
         <div class="bg-white p-8 rounded-lg shadow-xl border border-gray-200">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Super Admin Login</h2>
+            <h2 id="form-title" class="text-3xl font-bold text-center text-gray-800 mb-6">Super Admin Login</h2>
             
+            <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span id="error-text" class="block sm:inline"> Invalid email or password.</span>
+            </div>
+
             <form id="login-form" class="space-y-6">
                 
-                <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <strong class="font-bold">Login Failed!</strong>
-                    <span class="block sm:inline"> Invalid email or password.</span>
-                </div>
-
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                    <input type="email" id="email" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="admin@example.com">
+                    <label for="login-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="login-email" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="admin@example.com">
                 </div>
                 
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
-                        <input type="password" id="password" required class="block w-full px-4 py-2 border border-gray-300 rounded-md pr-10 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="••••••••">
-                        <button type="button" id="password-toggle" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-500 hover:text-gray-700">
-                            <svg id="eye-open" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            <svg id="eye-closed" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7 1.274-4.057 5.065-7 9.542-7 1.258 0 2.47.237 3.6.684m2.155 4.316a1.5 1.5 0 01-.155-.684m-4.5-5.55a3 3 0 00-4.5 0M9 12a3 3 0 106 0 3 3 0 00-6 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-9-9" />
-                            </svg>
+                        <input type="password" id="login-password" required class="block w-full px-4 py-2 border border-gray-300 rounded-md pr-10 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="••••••••">
+                        <button type="button" id="login-password-toggle" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-500 hover:text-gray-700">
+                             <svg id="login-eye-open" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                            <svg id="login-eye-closed" class="h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7 1.274-4.057 5.065-7 9.542-7 1.258 0 2.47.237 3.6.684m2.155 4.316a1.5 1.5 0 01-.155-.684m-4.5-5.55a3 3 0 00-4.5 0M9 12a3 3 0 106 0 3 3 0 00-6 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-9-9" /></svg>
                         </button>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="text-sm">
-                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                            Forgot password?
-                        </a>
+                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Forgot password?</a>
                     </div>
                 </div>
 
                 <div>
                     <button type="submit" id="login-button" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                         Login
-                        <svg id="loading-spinner" class="animate-spin -mr-1 ml-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+                        <svg id="login-spinner" class="animate-spin -mr-1 ml-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     </button>
                 </div>
             </form>
+
+            <form id="signup-form" class="space-y-6 hidden">
+                
+                <div>
+                    <label for="signup-name" class="block text-sm font-medium text-gray-700">Admin Name</label>
+                    <input type="text" id="signup-name" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Your Full Name">
+                </div>
+
+                <div>
+                    <label for="signup-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="signup-email" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="new.admin@example.com">
+                </div>
+                
+                <div>
+                    <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="signup-password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="••••••••">
+                </div>
+
+                <div>
+                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input type="password" id="confirm-password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="••••••••">
+                    <p id="password-match-error" class="text-xs text-red-600 mt-1 hidden">Passwords do not match.</p>
+                </div>
+
+                <div>
+                    <button type="submit" id="signup-button" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                        Register Admin
+                        <svg id="signup-spinner" class="animate-spin -mr-1 ml-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-6 text-center text-sm">
+                <span id="toggle-text">New to the system?</span>
+                <button id="toggle-form-button" class="font-medium text-indigo-600 hover:text-indigo-500 ml-1">Create an Admin Account</button>
+            </div>
+            
         </div>
     </div>
 
     <script>
-        const passwordField = document.getElementById('password');
-        const passwordToggle = document.getElementById('password-toggle');
-        const eyeOpen = document.getElementById('eye-open');
-        const eyeClosed = document.getElementById('eye-closed');
         const loginForm = document.getElementById('login-form');
-        const loginButton = document.getElementById('login-button');
-        const loadingSpinner = document.getElementById('loading-spinner');
+        const signupForm = document.getElementById('signup-form');
+        const formTitle = document.getElementById('form-title');
+        const toggleButton = document.getElementById('toggle-form-button');
+        const toggleText = document.getElementById('toggle-text');
         const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
 
-        passwordToggle.addEventListener('click', () => {
-            const isPassword = passwordField.type === 'password';
-            passwordField.type = isPassword ? 'text' : 'password';
-            eyeOpen.classList.toggle('hidden', !isPassword);
-            eyeClosed.classList.toggle('hidden', isPassword);
+        const loginPasswordField = document.getElementById('login-password');
+        const loginPasswordToggle = document.getElementById('login-password-toggle');
+        const loginEyeOpen = document.getElementById('login-eye-open');
+        const loginEyeClosed = document.getElementById('login-eye-closed');
+        const loginButton = document.getElementById('login-button');
+        const loginSpinner = document.getElementById('login-spinner');
+
+        const signupPassword = document.getElementById('signup-password');
+        const confirmPassword = document.getElementById('confirm-password');
+        const passwordMatchError = document.getElementById('password-match-error');
+        const signupButton = document.getElementById('signup-button');
+        const signupSpinner = document.getElementById('signup-spinner');
+
+        let isLoginFormActive = true;
+        
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorMessage.classList.add('hidden');
+        }
+
+        function togglePasswordVisibility(field, openIcon, closedIcon) {
+            const isPassword = field.type === 'password';
+            field.type = isPassword ? 'text' : 'password';
+            openIcon.classList.toggle('hidden', !isPassword);
+            closedIcon.classList.toggle('hidden', isPassword);
+        }
+
+        function toggleForm() {
+            hideError();
+            if (isLoginFormActive) {
+                formTitle.textContent = 'Admin Registration';
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                toggleText.textContent = 'Already have an account?';
+                toggleButton.textContent = 'Log In';
+            } else {
+                formTitle.textContent = 'Super Admin Login';
+                signupForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                toggleText.textContent = 'New to the system?';
+                toggleButton.textContent = 'Create an Admin Account';
+            }
+            isLoginFormActive = !isLoginFormActive;
+        }
+
+        toggleButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForm();
         });
+
+        loginPasswordToggle.addEventListener('click', () => {
+            togglePasswordVisibility(loginPasswordField, loginEyeOpen, loginEyeClosed);
+        });
+
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
             loginButton.disabled = true;
-            loadingSpinner.classList.remove('hidden');
-            errorMessage.classList.add('hidden');
+            loginSpinner.classList.remove('hidden');
+            hideError();
             
             setTimeout(() => {
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
 
                 if (email === 'admin@test.com' && password === 'password123') {
                     alert('Login Successful! (Simulated)');
                 } else {
-                    errorMessage.classList.remove('hidden');
+                    showError('Invalid email or password.');
                 }
 
                 loginButton.disabled = false;
-                loadingSpinner.classList.classList.add('hidden');
+                loginSpinner.classList.add('hidden');
+            }, 2000);
+        });
+        
+        function checkPasswordMatch() {
+            const match = signupPassword.value === confirmPassword.value;
+            passwordMatchError.classList.toggle('hidden', match);
+            signupButton.disabled = !match || !signupPassword.value || !confirmPassword.value;
+            return match;
+        }
+
+        signupPassword.addEventListener('input', checkPasswordMatch);
+        confirmPassword.addEventListener('input', checkPasswordMatch);
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            hideError();
+
+            if (!checkPasswordMatch()) {
+                showError('Passwords must match.');
+                return;
+            }
+
+            if (signupPassword.value.length < 8) {
+                showError('Password must be at least 8 characters.');
+                return;
+            }
+
+            signupButton.disabled = true;
+            signupSpinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = signupPassword.value;
+                
+                console.log(`New Admin Registered: ${name}, ${email}`);
+                alert('Registration Successful! You can now log in.');
+
+                toggleForm(); 
+
+                signupButton.disabled = false;
+                signupSpinner.classList.add('hidden');
+
             }, 2000);
         });
     </script>
