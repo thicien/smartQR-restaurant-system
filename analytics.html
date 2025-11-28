@@ -9,53 +9,51 @@
 </head>
 <body class="bg-gray-100">
 
-<header class="bg-white shadow p-4">
-  <h1 class="text-2xl font-bold text-gray-700">Analytics Dashboard</h1>
-</header>
+    <header class="bg-white shadow p-4">
+     <h1 class="text-2xl font-bold text-gray-700">Analytics Dashboard</h1>
+    </header>
 
-<div class="max-w-6xl mx-auto mt-8 p-4 grid gap-6">
+    <div class="max-w-6xl mx-auto mt-8 p-4 grid gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-4 rounded shadow h-64">
+              <h2 class="text-lg font-semibold mb-2">Orders (Last 30 Days)</h2>
+              <canvas id="ordersChart" class="w-full h-48"></canvas>
+            </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div class="bg-white p-4 rounded shadow h-64">
-      <h2 class="text-lg font-semibold mb-2">Orders (Last 30 Days)</h2>
-      <canvas id="ordersChart" class="w-full h-48"></canvas>
+            <div class="bg-white p-4 rounded shadow h-64">
+             <h2 class="text-lg font-semibold mb-2">Revenue (Last 30 Days)</h2>
+             <canvas id="revenueChart" class="w-full h-48"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded shadow h-64">
+          <h2 class="text-lg font-semibold mb-2">Restaurants Growth (Last 12 Months)</h2>
+          <canvas id="growthChart" class="w-full h-48"></canvas>
+        </div>
     </div>
 
-    <div class="bg-white p-4 rounded shadow h-64">
-      <h2 class="text-lg font-semibold mb-2">Revenue (Last 30 Days)</h2>
-      <canvas id="revenueChart" class="w-full h-48"></canvas>
-    </div>
-  </div>
+    <script>
+      const last30Days = Array.from({length: 30}, (_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - (29 - i));
+      return d.toISOString().split('T')[0];
+      });
 
-  <div class="bg-white p-4 rounded shadow h-64">
-    <h2 class="text-lg font-semibold mb-2">Restaurants Growth (Last 12 Months)</h2>
-    <canvas id="growthChart" class="w-full h-48"></canvas>
-  </div>
+      const orderCounts = last30Days.map(() => Math.floor(Math.random() * 50) + 10); // 10-60 orders
+      const revenueCounts = last30Days.map(() => Math.floor(Math.random() * 200000) + 50000); // 50k-250k RWF
 
-</div>
+      const last12Months = Array.from({length: 12}, (_, i) => {
+      const d = new Date();
+      d.setMonth(d.getMonth() - (11 - i));
+      return d.toLocaleString('default', { month: 'short', year: 'numeric' });
+     });
+      const restaurantsGrowth = last12Months.map((_, i) => 10 + i * 5 + Math.floor(Math.random() * 5)); // cumulative growth
 
-<script>
-  const last30Days = Array.from({length: 30}, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (29 - i));
-    return d.toISOString().split('T')[0];
-  });
-
-  const orderCounts = last30Days.map(() => Math.floor(Math.random() * 50) + 10); // 10-60 orders
-  const revenueCounts = last30Days.map(() => Math.floor(Math.random() * 200000) + 50000); // 50k-250k RWF
-
-  const last12Months = Array.from({length: 12}, (_, i) => {
-    const d = new Date();
-    d.setMonth(d.getMonth() - (11 - i));
-    return d.toLocaleString('default', { month: 'short', year: 'numeric' });
-  });
-  const restaurantsGrowth = last12Months.map((_, i) => 10 + i * 5 + Math.floor(Math.random() * 5)); // cumulative growth
-
-  const ordersChart = new Chart(document.getElementById('ordersChart'), {
-    type: 'line',
-    data: {
-      labels: last30Days,
-      datasets: [{
+      const ordersChart = new Chart(document.getElementById('ordersChart'), {
+        type: 'line',
+        data: {
+        labels: last30Days,
+        datasets: [{
         label: 'Orders',
         data: orderCounts,
         backgroundColor: 'rgba(59,130,246,0.2)',
@@ -63,57 +61,51 @@
         borderWidth: 2,
         fill: true,
         tension: 0.4
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
+       }]
+      },
+       options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
         legend: { display: true },
         tooltip: { mode: 'index', intersect: false }
-      },
-      scales: {
+        },
+        scales: {
         x: { title: { display: true, text: 'Date' } },
         y: { title: { display: true, text: 'Orders' }, beginAtZero: true }
-      }
-    }
-  });
+        }
+       }
+      });
 
-  // =========================
-  // Revenue Chart
-  // =========================
-  const revenueChart = new Chart(document.getElementById('revenueChart'), {
-    type: 'bar',
-    data: {
-      labels: last30Days,
-      datasets: [{
+      const revenueChart = new Chart(document.getElementById('revenueChart'), {
+        type: 'bar',
+        data: {
+        labels: last30Days,
+        datasets: [{
         label: 'Revenue (RWF)',
         data: revenueCounts,
         backgroundColor: 'rgba(34,197,94,0.7)',
         borderColor: 'rgba(34,197,94,1)',
         borderWidth: 1
-      }]
-    },
-    options: {
+       }]
+      },
+      options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: { display: true },
         tooltip: { mode: 'index', intersect: false },
-      },
-      scales: {
+       },
+       scales: {
         x: { title: { display: true, text: 'Date' } },
         y: { title: { display: true, text: 'Revenue (RWF)' }, beginAtZero: true }
       }
-    }
-  });
+     }
+     });
 
-  // =========================
-  // Restaurants Growth Chart
-  // =========================
-  const growthChart = new Chart(document.getElementById('growthChart'), {
-    type: 'line',
-    data: {
+     const growthChart = new Chart(document.getElementById('growthChart'), {
+      type: 'line',
+      data: {
       labels: last12Months,
       datasets: [{
         label: 'Total Restaurants',
@@ -124,8 +116,8 @@
         fill: true,
         tension: 0.4
       }]
-    },
-    options: {
+     },
+     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
@@ -136,8 +128,8 @@
         x: { title: { display: true, text: 'Month' } },
         y: { title: { display: true, text: 'Restaurants' }, beginAtZero: true }
       }
-    }
-  });
-</script>
+     }
+     });
+    </script>
 </body>
 </html>
