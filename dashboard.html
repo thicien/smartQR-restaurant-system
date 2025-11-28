@@ -62,94 +62,94 @@
                        <span class="text-sm font-medium text-gray-700">Super Admin</span>
                     <div class="h-8 w-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-sm font-bold">SA</div>
                 </div>
+            </div>
             </header>
+
+            <main class="flex-1 p-6 overflow-y-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-indigo-500">
+                        <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Restaurants</p>
+                        <div class="flex items-center justify-between">
+                            <p class="text-3xl font-bold text-gray-900 mt-1" id="totalRestaurants">0</p>
+                            <canvas id="totalRestaurantsChart" class="sparkline-chart"></canvas>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2" id="totalRestaurantsTrend">+0% since last month</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-yellow-500">
+                       <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Approval</p>
+                            <div class="flex items-center justify-between">
+                             <p class="text-3xl font-bold text-gray-900 mt-1" id="pendingRestaurants">0</p>
+                             <canvas id="pendingRestaurantsChart" class="sparkline-chart"></canvas>
+                            </div>
+                       <p class="text-xs text-red-500 mt-2" id="pendingRestaurantsTrend">Needs immediate attention</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-green-500">
+                       <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Active Subscriptions</p>
+                        <div class="flex items-center justify-between">
+                          <p class="text-3xl font-bold text-gray-900 mt-1" id="activeSubscriptions">0</p>
+                          <canvas id="activeSubscriptionsChart" class="sparkline-chart"></canvas>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2" id="activeSubscriptionsTrend">0% retention rate</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-blue-500">
+                       <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Monthly Revenue (RWF)</p>
+                        <div class="flex items-center justify-between">
+                           <p class="text-3xl font-bold text-gray-900 mt-1" id="monthlyRevenue">0</p>
+                           <canvas id="revenueChart" class="sparkline-chart"></canvas>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2" id="monthlyRevenueTrend">+0% from last month</p>
+                    </div>
+                </div>
+
+                <div class="mb-8 flex flex-wrap gap-4">
+                    <button onclick="addRestaurant()" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 ease-in-out flex items-center">
+                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Add Restaurant
+                    </button>
+
+                    <button onclick="openPendingList()" class="px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg shadow-md hover:bg-yellow-600 transition duration-150 ease-in-out flex items-center">
+                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.405L4 17h5m6 0v2a3 3 0 11-6 0v-2m6 0H9" />
+                        </svg>
+                        Approve Pending Restaurants
+                    </button>
+
+                    <button onclick="exportData()" class="px-4 py-2 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 transition duration-150 ease-in-out flex items-center">
+                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        Export Data
+                    </button>
+
+                    <button onclick="window.location.href='analytics.html'" class="px-4 py-2 bg-green-500 text-white font-medium rounded-lg shadow-md hover:bg-green-600 transition duration-150 ease-in-out flex items-center">
+                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm6-6h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v-10z" />
+                        </svg>
+                        View Analytics
+                    </button>
+
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200 mb-6">
+                   <h3 class="text-xl font-semibold text-gray-800 mb-4">Revenue Trend (Last 6 Months)</h3>
+                    <div class="h-80">
+                       <canvas id="largeRevenueChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Restaurants Growth (Last 12 Months)</h3>
+                    <div class="h-80">
+                       <canvas id="restaurantsGrowthChart"></canvas>
+                    </div>
+                </div>
+            </main>
         </div>
-
-        <main class="flex-1 p-6 overflow-y-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-indigo-500">
-                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Restaurants</p>
-                    <div class="flex items-center justify-between">
-                        <p class="text-3xl font-bold text-gray-900 mt-1" id="totalRestaurants">0</p>
-                        <canvas id="totalRestaurantsChart" class="sparkline-chart"></canvas>
-                    </div>
-                    <p class="text-xs text-green-500 mt-2" id="totalRestaurantsTrend">+0% since last month</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-yellow-500">
-                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Approval</p>
-                    <div class="flex items-center justify-between">
-                        <p class="text-3xl font-bold text-gray-900 mt-1" id="pendingRestaurants">0</p>
-                        <canvas id="pendingRestaurantsChart" class="sparkline-chart"></canvas>
-                    </div>
-                    <p class="text-xs text-red-500 mt-2" id="pendingRestaurantsTrend">Needs immediate attention</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-green-500">
-                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Active Subscriptions</p>
-                    <div class="flex items-center justify-between">
-                        <p class="text-3xl font-bold text-gray-900 mt-1" id="activeSubscriptions">0</p>
-                        <canvas id="activeSubscriptionsChart" class="sparkline-chart"></canvas>
-                    </div>
-                    <p class="text-xs text-green-500 mt-2" id="activeSubscriptionsTrend">0% retention rate</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-blue-500">
-                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Monthly Revenue (RWF)</p>
-                    <div class="flex items-center justify-between">
-                        <p class="text-3xl font-bold text-gray-900 mt-1" id="monthlyRevenue">0</p>
-                        <canvas id="revenueChart" class="sparkline-chart"></canvas>
-                    </div>
-                    <p class="text-xs text-green-500 mt-2" id="monthlyRevenueTrend">+0% from last month</p>
-                </div>
-            </div>
-
-            <div class="mb-8 flex flex-wrap gap-4">
-                <button onclick="addRestaurant()" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 ease-in-out flex items-center">
-                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Add Restaurant
-                </button>
-
-                <button onclick="openPendingList()" class="px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg shadow-md hover:bg-yellow-600 transition duration-150 ease-in-out flex items-center">
-                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.405L4 17h5m6 0v2a3 3 0 11-6 0v-2m6 0H9" />
-                    </svg>
-                    Approve Pending Restaurants
-                </button>
-
-                <button onclick="exportData()" class="px-4 py-2 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 transition duration-150 ease-in-out flex items-center">
-                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    Export Data
-                </button>
-
-                <button onclick="window.location.href='analytics.html'" class="px-4 py-2 bg-green-500 text-white font-medium rounded-lg shadow-md hover:bg-green-600 transition duration-150 ease-in-out flex items-center">
-                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm6-6h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v-10z" />
-                    </svg>
-                    View Analytics
-                </button>
-
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200 mb-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Revenue Trend (Last 6 Months)</h3>
-                <div class="h-80">
-                    <canvas id="largeRevenueChart"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Restaurants Growth (Last 12 Months)</h3>
-                <div class="h-80">
-                    <canvas id="restaurantsGrowthChart"></canvas>
-                </div>
-            </div>
-        </main>
     </div>
-</div>
 
     <script>
         let restaurants = [
