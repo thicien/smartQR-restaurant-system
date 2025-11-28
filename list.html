@@ -15,141 +15,142 @@
         <div id="restaurantListPage">
          <h2 class="text-xl font-semibold mb-4">Restaurant List</h2>
 
-         <table class="min-w-full bg-white rounded shadow">
-          <thead>
-                <tr class="bg-gray-200 text-left text-sm font-semibold">
-                  <th class="p-3">Name</th>
-                  <th class="p-3">Location</th>
-                  <th class="p-3">Owner</th>
-                  <th class="p-3">Status</th>
-                  <th class="p-3">Actions</th>
-                </tr>
-        </thead>
-        <tbody id="restaurantTable"></tbody>
-      </table>
-     </div>
-     <div id="restaurantDetailsPage" class="hidden">
-      <button onclick="showRestaurantList()" class="mb-4 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-        ← Back
-      </button>
+            <table class="min-w-full bg-white rounded shadow">
+                <thead>
+                    <tr class="bg-gray-200 text-left text-sm font-semibold">
+                     <th class="p-3">Name</th>
+                     <th class="p-3">Location</th>
+                     <th class="p-3">Owner</th>
+                     <th class="p-3">Status</th>
+                     <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="restaurantTable"></tbody>
+            </table>
+        </div>
+        <div id="restaurantDetailsPage" class="hidden">
+            <button onclick="showRestaurantList()" class="mb-4 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+             ← Back
+            </button>
 
-      <div id="restaurantDetails"></div>
-     </div>
+            <div id="restaurantDetails"></div>
+        </div>
     </div>
 
-  <div id="rejectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-20">
-    <div class="bg-white p-6 rounded shadow-lg w-96">
-      <h3 class="text-lg font-semibold mb-4">Rejection Reason</h3>
-      <textarea id="rejectReason" class="w-full p-2 border rounded mb-4" rows="4"
-                placeholder="Enter rejection reason"></textarea>
+    <div id="rejectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-20">
+        <div class="bg-white p-6 rounded shadow-lg w-96">
+          <h3 class="text-lg font-semibold mb-4">Rejection Reason</h3>
+            <textarea id="rejectReason" class="w-full p-2 border rounded mb-4" rows="4"
+                placeholder="Enter rejection reason">
+            </textarea>
 
-      <div class="flex justify-end gap-2">
-        <button onclick="closeRejectModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-          Cancel
-        </button>
-        <button onclick="submitRejection()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
-          Submit
-        </button>
-      </div>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeRejectModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                    Cancel
+                </button>
+                <button onclick="submitRejection()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    Submit
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const restaurants = [
-      {
-        id: 1,
-        name: "Sunset Grill",
-        location: "Kigali - Kimironko",
-        owner: "Jean Bosco",
-        status: "Pending",
-        info: "A modern grill restaurant specializing in roasted meats and grilled vegetables.",
-        menu: {
-          "Starters": [
+    <script>
+        const restaurants = [
+           {
+            id: 1,
+            name: "Sunset Grill",
+            location: "Kigali - Kimironko",
+            owner: "Jean Bosco",
+            status: "Pending",
+            info: "A modern grill restaurant specializing in roasted meats and grilled vegetables.",
+            menu: {
+            "Starters": [
             { item: "Grilled Corn", price: 1500 },
             { item: "Chicken Skewers", price: 3000 },
             { item: "Beef Brochettes", price: 3500 }
-          ],
-          "Main": [
+            ],
+            "Main": [
             { item: "Full Chicken Grill", price: 12000 },
             { item: "Beef Steak", price: 12000 },
             { item: "Fish & Chips", price: 8000 },
             { item: "Grilled Goat Meat", price: 10000 }
-          ],
-          "Drinks": [
+            ],
+            "Drinks": [
             { item: "Passion Juice", price: 1500 },
             { item: "Lemonade", price: 1000 },
             { item: "Mint Tea", price: 1000 },
             { item: "Cold Beer", price: 2000 }
-          ]
-        },
-        ownerInfo: "Owner with 5 years of experience in hospitality.",
-        rejectionReason: ""
-      },
-      {
-        id: 2,
-        name: "Green Leaf Café",
-        location: "Kigali - Kicukiro",
-        owner: "Alice Mukamana",
-        status: "Approved",
-        info: "Healthy meals with vegan options and organic ingredients.",
-        menu: {
-          "Salads": [
-            { item: "Avocado Salad", price: 3500 },
-            { item: "Greek Salad", price: 4000 },
-            { item: "Fruit Bowl", price: 3000 }
-          ],
-          "Main": [
-            { item: "Veggie Wrap", price: 3500 },
-            { item: "Tofu Stir Fry", price: 5500 },
-            { item: "Pumpkin Soup", price: 3000 }
-          ],
-          "Drinks": [
-            { item: "Ginger Tea", price: 1000 },
-            { item: "Green Tea", price: 1000 },
-            { item: "Smoothies", price: 2500 }
-          ]
-        },
-        ownerInfo: "Nutrition expert with passion for healthy foods.",
-        rejectionReason: ""
-      },
-      {
-        id: 3,
-        name: "Royal Biryani House",
-        location: "Kigali - Nyamirambo",
-        owner: "Mohammed Ali",
-        status: "Pending",
-        info: "Authentic Indian biryani and spicy curry dishes.",
-        menu: {
-          "Starters": [
-            { item: "Samosa", price: 500 },
-            { item: "Chicken Tikka", price: 4000 },
-            { item: "Paneer Fry", price: 3500 }
-          ],
-          "Biryani": [
-            { item: "Chicken Biryani", price: 7000 },
-            { item: "Mutton Biryani", price: 9000 },
-            { item: "Vegetable Biryani", price: 6000 }
-          ],
-          "Drinks": [
-            { item: "Mango Lassi", price: 2000 },
-            { item: "Masala Tea", price: 1000 }
-          ]
-        },
-        ownerInfo: "Indian cuisine specialist with 10 years experience.",
-        rejectionReason: ""
-      },
-      {
-        id: 4,
-        name: "Mama Africa Dishes",
-        location: "Kigali - Remera",
-        owner: "Claudette Uwase",
-        status: "Rejected",
-        info: "Traditional African dishes prepared in a modern style.",
-        menu: {
-          "Local": [
-            { item: "Igisafuriya", price: 5000 },
-            { item: "Isombe", price: 3000 },
-            { item: "Ibirayi bitogoshe", price: 1500 }
+            ]
+            },
+            ownerInfo: "Owner with 5 years of experience in hospitality.",
+            rejectionReason: ""
+           },
+           {
+             id: 2,
+             name: "Green Leaf Café",
+             location: "Kigali - Kicukiro",
+             owner: "Alice Mukamana",
+             status: "Approved",
+             info: "Healthy meals with vegan options and organic ingredients.",
+             menu: {
+             "Salads": [
+              { item: "Avocado Salad", price: 3500 },
+              { item: "Greek Salad", price: 4000 },
+              { item: "Fruit Bowl", price: 3000 }
+             ],
+             "Main": [
+              { item: "Veggie Wrap", price: 3500 },
+              { item: "Tofu Stir Fry", price: 5500 },
+              { item: "Pumpkin Soup", price: 3000 }
+             ],
+             "Drinks": [
+               { item: "Ginger Tea", price: 1000 },
+               { item: "Green Tea", price: 1000 },
+               { item: "Smoothies", price: 2500 }
+             ]
+             },
+             ownerInfo: "Nutrition expert with passion for healthy foods.",
+             rejectionReason: ""
+            },
+            {
+              id: 3,
+              name: "Royal Biryani House",
+              location: "Kigali - Nyamirambo",
+              owner: "Mohammed Ali",
+              status: "Pending",
+              info: "Authentic Indian biryani and spicy curry dishes.",
+              menu: {
+               "Starters": [
+                { item: "Samosa", price: 500 },
+                { item: "Chicken Tikka", price: 4000 },
+                { item: "Paneer Fry", price: 3500 }
+             ],
+               "Biryani": [
+                { item: "Chicken Biryani", price: 7000 },
+                { item: "Mutton Biryani", price: 9000 },
+                { item: "Vegetable Biryani", price: 6000 }
+             ],
+               "Drinks": [
+                { item: "Mango Lassi", price: 2000 },
+                { item: "Masala Tea", price: 1000 }
+              ]
+             },
+             ownerInfo: "Indian cuisine specialist with 10 years experience.",
+             rejectionReason: ""
+            },
+            {
+             id: 4,
+             name: "Mama Africa Dishes",
+             location: "Kigali - Remera",
+             owner: "Claudette Uwase",
+             status: "Rejected",
+             info: "Traditional African dishes prepared in a modern style.",
+             menu: {
+              "Local": [
+               { item: "Igisafuriya", price: 5000 },
+               { item: "Isombe", price: 3000 },
+               { item: "Ibirayi bitogoshe", price: 1500 }
           ],
           "Meat": [
             { item: "Grilled Goat", price: 5000 },
