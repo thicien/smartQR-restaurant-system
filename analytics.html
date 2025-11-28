@@ -9,29 +9,24 @@
 </head>
 <body class="bg-gray-100">
 
-<!-- HEADER -->
 <header class="bg-white shadow p-4">
   <h1 class="text-2xl font-bold text-gray-700">Analytics Dashboard</h1>
 </header>
 
 <div class="max-w-6xl mx-auto mt-8 p-4 grid gap-6">
 
-  <!-- Top charts: Orders and Revenue -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- Orders Chart -->
     <div class="bg-white p-4 rounded shadow h-64">
       <h2 class="text-lg font-semibold mb-2">Orders (Last 30 Days)</h2>
       <canvas id="ordersChart" class="w-full h-48"></canvas>
     </div>
 
-    <!-- Revenue Chart -->
     <div class="bg-white p-4 rounded shadow h-64">
       <h2 class="text-lg font-semibold mb-2">Revenue (Last 30 Days)</h2>
       <canvas id="revenueChart" class="w-full h-48"></canvas>
     </div>
   </div>
 
-  <!-- Restaurants Growth Chart -->
   <div class="bg-white p-4 rounded shadow h-64">
     <h2 class="text-lg font-semibold mb-2">Restaurants Growth (Last 12 Months)</h2>
     <canvas id="growthChart" class="w-full h-48"></canvas>
@@ -40,9 +35,6 @@
 </div>
 
 <script>
-  // =========================
-  // Simulated Data
-  // =========================
   const last30Days = Array.from({length: 30}, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (29 - i));
@@ -59,9 +51,6 @@
   });
   const restaurantsGrowth = last12Months.map((_, i) => 10 + i * 5 + Math.floor(Math.random() * 5)); // cumulative growth
 
-  // =========================
-  // Orders Chart
-  // =========================
   const ordersChart = new Chart(document.getElementById('ordersChart'), {
     type: 'line',
     data: {
