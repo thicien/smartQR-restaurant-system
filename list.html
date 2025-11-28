@@ -151,207 +151,208 @@
                { item: "Igisafuriya", price: 5000 },
                { item: "Isombe", price: 3000 },
                { item: "Ibirayi bitogoshe", price: 1500 }
-          ],
-          "Meat": [
-            { item: "Grilled Goat", price: 5000 },
-            { item: "Beef Stew", price: 4000 },
-            { item: "Chicken Curry", price: 4500 }
-          ],
-          "Drinks": [
-            { item: "Milk", price: 500 },
-            { item: "Soda", price: 600 },
-            { item: "Fresh Juice", price: 1500 }
-          ]
-        },
-        ownerInfo: "Experienced chef focusing on local cuisine.",
-        rejectionReason: "Kitchen hygiene needed improvement."
-      }
-    ];
+              ],
+               "Meat": [
+                 { item: "Grilled Goat", price: 5000 },
+                 { item: "Beef Stew", price: 4000 },
+                 { item: "Chicken Curry", price: 4500 }
+                ],
+               "Drinks": [
+                 { item: "Milk", price: 500 },
+                 { item: "Soda", price: 600 },
+                 { item: "Fresh Juice", price: 1500 }
+                ]
+              },
+              ownerInfo: "Experienced chef focusing on local cuisine.",
+              rejectionReason: "Kitchen hygiene needed improvement."
+            }
+        ];
 
-    let currentRestaurantId = null;
+        let currentRestaurantId = null;
 
-    function formatPrice(amount) {
-      return "RWF " + amount.toLocaleString("en-US");
-    }
+        function formatPrice(amount) {
+          return "RWF " + amount.toLocaleString("en-US");
+        }
 
-    function loadRestaurantList() {
-      const table = document.getElementById("restaurantTable");
-      table.innerHTML = "";
+        function loadRestaurantList() {
+          const table = document.getElementById("restaurantTable");
+          table.innerHTML = "";
 
-      restaurants.forEach(r => {
-        const statusClass =
-          r.status === "Approved"
-            ? "bg-green-600"
-            : r.status === "Rejected"
-            ? "bg-red-600"
-            : "bg-yellow-600";
+            restaurants.forEach(r => {
+              const statusClass =
+               r.status === "Approved"
+               ? "bg-green-600"
+               : r.status === "Rejected"
+               ? "bg-red-600"
+               : "bg-yellow-600";
 
-        const row = `
-          <tr class="border-b text-sm">
-            <td class="p-3">${r.name}</td>
-            <td class="p-3">${r.location}</td>
-            <td class="p-3">${r.owner}</td>
-            <td class="p-3">
-              <span class="px-2 py-1 rounded text-white ${statusClass}">
-                ${r.status}
-              </span>
-            </td>
-            <td class="p-3">
-              <button onclick="viewDetails(${r.id})"
-                      class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs">
-                View
-              </button>
-            </td>
-          </tr>
-        `;
-        table.innerHTML += row;
-      });
-    }
-
-    function viewDetails(id) {
-      const r = restaurants.find(x => x.id === id);
-      if (!r) return;
-      currentRestaurantId = id;
-
-      let menuHTML = "";
-      for (let category in r.menu) {
-        const items = r.menu[category];
-        const rows = items
-          .map(
-            item => `
-              <tr class="border-b">
-                <td class="p-2">${item.item}</td>
-                <td class="p-2 text-right">${formatPrice(item.price)}</td>
-              </tr>
-            `
-          )
-          .join("");
-
-        menuHTML += `
-          <div class="mt-4">
-            <h4 class="text-md font-semibold mb-1">${category}</h4>
-            <table class="min-w-full text-sm border rounded overflow-hidden bg-white">
-              <thead class="bg-gray-100">
-                <tr>
-                  <th class="p-2 text-left">Item</th>
-                  <th class="p-2 text-right">Price (RWF)</th>
+              const row = `
+                <tr class="border-b text-sm">
+                   <td class="p-3">${r.name}</td>
+                   <td class="p-3">${r.location}</td>
+                   <td class="p-3">${r.owner}</td>
+                    <td class="p-3">
+                        <span class="px-2 py-1 rounded text-white ${statusClass}">
+                         ${r.status}
+                        </span>
+                    </td>
+                    <td class="p-3">
+                        <button onclick="viewDetails(${r.id})"
+                         class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs">
+                         View
+                        </button>
+                    </td>
                 </tr>
-              </thead>
-              <tbody>
-                ${rows}
-              </tbody>
-            </table>
-          </div>
-        `;
-      }
+              `;
+              table.innerHTML += row;
+            });
+        }
 
-      const rejectionBlock =
-        r.status === "Rejected" && r.rejectionReason
-          ? `
-            <div class="mt-4 bg-red-50 border border-red-200 text-red-800 text-sm p-3 rounded">
-              <strong>Rejection Reason:</strong> ${r.rejectionReason}
+        function viewDetails(id) {
+          const r = restaurants.find(x => x.id === id);
+          if (!r) return;
+          currentRestaurantId = id;
+
+          let menuHTML = "";
+            for (let category in r.menu) {
+            const items = r.menu[category];
+            const rows = items
+                .map(
+                 item => `
+                 <tr class="border-b">
+                 <td class="p-2">${item.item}</td>
+                 <td class="p-2 text-right">${formatPrice(item.price)}</td>
+                 </tr>
+                 `
+                )
+                .join("");
+
+                menuHTML += `
+                <div class="mt-4">
+                   <h4 class="text-md font-semibold mb-1">${category}</h4>
+                    <table class="min-w-full text-sm border rounded overflow-hidden bg-white">
+                        <thead class="bg-gray-100">
+                            <tr>
+                             <th class="p-2 text-left">Item</th>
+                             <th class="p-2 text-right">Price (RWF)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         ${rows}
+                        </tbody>
+                   </table>
+                </div>
+                    `;
+            }
+
+            const rejectionBlock =
+              r.status === "Rejected" && r.rejectionReason
+              ? `
+                <div class="mt-4 bg-red-50 border border-red-200 text-red-800 text-sm p-3 rounded">
+                 <strong>Rejection Reason:</strong> ${r.rejectionReason}
+                </div>
+                `
+            :   "";
+
+            const details = `
+            <div class="bg-white rounded shadow p-5">
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div>
+                   <h2 class="text-2xl font-semibold">${r.name}</h2>
+                   <p class="text-gray-600 text-sm mt-1">${r.location}</p>
+                   <p class="text-gray-500 text-sm mt-1">${r.info}</p>
+                </div>
+                <div class="text-sm">
+                   <p><span class="font-semibold">Owner:</span> ${r.owner}</p>
+                    <p><span class="font-semibold">Status:</span>
+                        <span class="ml-1 px-2 py-1 rounded text-white text-xs ${
+                          r.status === "Approved"
+                          ? "bg-green-600"
+                          : r.status === "Rejected"
+                          ? "bg-red-600"
+                          : "bg-yellow-600"
+                          }">${r.status}
+                        </span>
+                    </p>
+                </div>
             </div>
-          `
-          : "";
 
-      const details = `
-        <div class="bg-white rounded shadow p-5">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <div>
-              <h2 class="text-2xl font-semibold">${r.name}</h2>
-              <p class="text-gray-600 text-sm mt-1">${r.location}</p>
-              <p class="text-gray-500 text-sm mt-1">${r.info}</p>
+            ${rejectionBlock}
+
+            <div class="mt-6">
+              <h3 class="font-semibold text-lg mb-2">Menu Preview</h3>
+              ${menuHTML}
             </div>
-            <div class="text-sm">
-              <p><span class="font-semibold">Owner:</span> ${r.owner}</p>
-              <p><span class="font-semibold">Status:</span>
-                <span class="ml-1 px-2 py-1 rounded text-white text-xs ${
-                  r.status === "Approved"
-                    ? "bg-green-600"
-                    : r.status === "Rejected"
-                    ? "bg-red-600"
-                    : "bg-yellow-600"
-                }">${r.status}</span>
-              </p>
+
+            <div class="mt-6">
+               <h3 class="font-semibold text-lg mb-2">Owner Information</h3>
+               <p class="text-sm text-gray-700">${r.ownerInfo}</p>
             </div>
-          </div>
 
-          ${rejectionBlock}
-
-          <div class="mt-6">
-            <h3 class="font-semibold text-lg mb-2">Menu Preview</h3>
-            ${menuHTML}
-          </div>
-
-          <div class="mt-6">
-            <h3 class="font-semibold text-lg mb-2">Owner Information</h3>
-            <p class="text-sm text-gray-700">${r.ownerInfo}</p>
-          </div>
-
-          <div class="mt-6 flex flex-wrap gap-3">
-            <button onclick="approveRestaurant(${id})"
+            <div class="mt-6 flex flex-wrap gap-3">
+                <button onclick="approveRestaurant(${id})"
                     class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
-              Approve
-            </button>
-            <button onclick="openRejectModal(${id})"
+                    Approve
+                </button>
+                <button onclick="openRejectModal(${id})"
                     class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm">
-              Reject
-            </button>
-          </div>
-        </div>
-      `;
+                    Reject
+                </button>
+            </div>
+         </div>
+         `;
 
-      document.getElementById("restaurantDetails").innerHTML = details;
-      document.getElementById("restaurantListPage").classList.add("hidden");
-      document.getElementById("restaurantDetailsPage").classList.remove("hidden");
-    }
+         document.getElementById("restaurantDetails").innerHTML = details;
+         document.getElementById("restaurantListPage").classList.add("hidden");
+         document.getElementById("restaurantDetailsPage").classList.remove("hidden");
+        }
 
-    function showRestaurantList() {
-      document.getElementById("restaurantDetailsPage").classList.add("hidden");
-      document.getElementById("restaurantListPage").classList.remove("hidden");
-      loadRestaurantList();
-    }
+        function showRestaurantList() {
+          document.getElementById("restaurantDetailsPage").classList.add("hidden");
+          document.getElementById("restaurantListPage").classList.remove("hidden");
+          loadRestaurantList();
+        }
 
-    function approveRestaurant(id) {
-      const r = restaurants.find(x => x.id === id);
-      if (!r) return;
+        function approveRestaurant(id) {
+          const r = restaurants.find(x => x.id === id);
+          if (!r) return;
 
-      r.status = "Approved";
-      r.rejectionReason = "";
-      alert("Restaurant approved.");
-      showRestaurantList();
-    }
+          r.status = "Approved";
+          r.rejectionReason = "";
+          alert("Restaurant approved.");
+          showRestaurantList();
+        }
 
-    function openRejectModal(id) {
-      currentRestaurantId = id;
-      document.getElementById("rejectReason").value = "";
-      document.getElementById("rejectModal").classList.remove("hidden");
-    }
+        function openRejectModal(id) {
+         currentRestaurantId = id;
+         document.getElementById("rejectReason").value = "";
+         document.getElementById("rejectModal").classList.remove("hidden");
+        }
 
-    function closeRejectModal() {
-      document.getElementById("rejectModal").classList.add("hidden");
-    }
+        function closeRejectModal() {
+          document.getElementById("rejectModal").classList.add("hidden");
+        }
 
-    function submitRejection() {
-      const reason = document.getElementById("rejectReason").value.trim();
-      if (!reason) {
-        alert("Please enter a rejection reason.");
-        return;
-      }
+        function submitRejection() {
+          const reason = document.getElementById("rejectReason").value.trim();
+            if (!reason) {
+               alert("Please enter a rejection reason.");
+               return;
+            }
 
-      const r = restaurants.find(x => x.id === currentRestaurantId);
-      if (!r) return;
+            const r = restaurants.find(x => x.id === currentRestaurantId);
+              if (!r) return;
 
-      r.status = "Rejected";
-      r.rejectionReason = reason;
+              r.status = "Rejected";
+              r.rejectionReason = reason;
 
-      closeRejectModal();
-      alert("Restaurant rejected.");
-      showRestaurantList();
-    }
+              closeRejectModal();
+              alert("Restaurant rejected.");
+              showRestaurantList();
+        }
 
-    loadRestaurantList();
-  </script>
+        loadRestaurantList();
+    </script>
 
 </body>
 </html>
