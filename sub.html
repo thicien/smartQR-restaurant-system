@@ -238,60 +238,60 @@
                   <button onclick="renewSub(${sub.id})" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs">Renew</button>
                  </td>
                 </tr>
-      `;
-    });
+               `;
+            });
 
-    const paginationDiv = document.getElementById("pagination");
-    paginationDiv.innerHTML = "";
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.innerText = i;
-      btn.className = `px-3 py-1 border rounded ${i === currentPage ? "bg-blue-600 text-white" : "bg-white hover:bg-gray-100"}`;
-      btn.onclick = () => { currentPage = i; loadRestaurantSubsTable(); };
-      paginationDiv.appendChild(btn);
-    }
-  }
+           const paginationDiv = document.getElementById("pagination");
+           paginationDiv.innerHTML = "";
+           for (let i = 1; i <= totalPages; i++) {
+           const btn = document.createElement("button");
+           btn.innerText = i;
+           btn.className = `px-3 py-1 border rounded ${i === currentPage ? "bg-blue-600 text-white" : "bg-white hover:bg-gray-100"}`;
+           btn.onclick = () => { currentPage = i; loadRestaurantSubsTable(); };
+           paginationDiv.appendChild(btn);
+           }
+        }
 
-  function updateExpiry(subId, newValue) {
-    const sub = restaurantSubscriptions.find(s => s.id === subId);
-    if (sub) {
-      sub.expiry = newValue;
-      loadRestaurantSubsTable();
-    }
-  }
+        function updateExpiry(subId, newValue) {
+        const sub = restaurantSubscriptions.find(s => s.id === subId);
+        if (sub) {
+         sub.expiry = newValue;
+         loadRestaurantSubsTable();
+        }
+       }
 
-  function renewSub(id) {
-    const sub = restaurantSubscriptions.find(s => s.id === id);
-    if (!sub) return;
-    const plan = subscriptionPlans.find(p => p.name === sub.plan);
-    if (!plan) return;
-    const currentExpiry = new Date(sub.expiry);
-    currentExpiry.setDate(currentExpiry.getDate() + plan.duration);
-    sub.expiry = currentExpiry.toISOString().split("T")[0];
-    loadRestaurantSubsTable();
-  }
+        function renewSub(id) {
+         const sub = restaurantSubscriptions.find(s => s.id === id);
+         if (!sub) return;
+         const plan = subscriptionPlans.find(p => p.name === sub.plan);
+         if (!plan) return;
+         const currentExpiry = new Date(sub.expiry);
+         currentExpiry.setDate(currentExpiry.getDate() + plan.duration);
+         sub.expiry = currentExpiry.toISOString().split("T")[0];
+         loadRestaurantSubsTable();
+        }
 
-  document.getElementById("searchInput")?.addEventListener("input", () => { currentPage = 1; loadRestaurantSubsTable(); });
-  document.getElementById("filterPlan")?.addEventListener("change", () => { currentPage = 1; loadRestaurantSubsTable(); });
-  document.getElementById("filterStatus")?.addEventListener("change", () => { currentPage = 1; loadRestaurantSubsTable(); });
+        document.getElementById("searchInput")?.addEventListener("input", () => { currentPage = 1; loadRestaurantSubsTable(); });
+        document.getElementById("filterPlan")?.addEventListener("change", () => { currentPage = 1; loadRestaurantSubsTable(); });
+        document.getElementById("filterStatus")?.addEventListener("change", () => { currentPage = 1; loadRestaurantSubsTable(); });
 
-  function exportCSV() {
-    let csv = "Restaurant,Plan,Expiry,Status\n";
-    restaurantSubscriptions.forEach(sub => { csv += `${sub.restaurant},${sub.plan},${sub.expiry},${sub.status}\n`; });
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "restaurant_subscriptions.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+        function exportCSV() {
+         let csv = "Restaurant,Plan,Expiry,Status\n";
+         restaurantSubscriptions.forEach(sub => { csv += `${sub.restaurant},${sub.plan},${sub.expiry},${sub.status}\n`; });
+         const blob = new Blob([csv], { type: "text/csv" });
+         const url = URL.createObjectURL(blob);
+         const a = document.createElement("a");
+         a.href = url;
+         a.download = "restaurant_subscriptions.csv";
+         a.click();
+         URL.revokeObjectURL(url);
+        }
 
-  function showPlans() { document.getElementById("plansPage").classList.remove("hidden"); document.getElementById("restaurantSubsPage").classList.add("hidden"); loadPlansTable(); }
-  function showRestaurantSubscriptions() { document.getElementById("restaurantSubsPage").classList.remove("hidden"); document.getElementById("plansPage").classList.add("hidden"); loadRestaurantSubsTable(); }
+        function showPlans() { document.getElementById("plansPage").classList.remove("hidden"); document.getElementById("restaurantSubsPage").classList.add("hidden"); loadPlansTable(); }
+        function showRestaurantSubscriptions() { document.getElementById("restaurantSubsPage").classList.remove("hidden"); document.getElementById("plansPage").classList.add("hidden"); loadRestaurantSubsTable(); }
 
-  showPlans();
-</script>
+        showPlans();
+    </script>
 </body>
 </html>
 
