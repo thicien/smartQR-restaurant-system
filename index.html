@@ -89,141 +89,139 @@
     </div>
 
     <script>
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    const formTitle = document.getElementById('form-title');
-    const toggleButton = document.getElementById('toggle-form-button');
-    const toggleText = document.getElementById('toggle-text');
-    const errorMessage = document.getElementById('error-message');
-    const errorText = document.getElementById('error-text');
+       const loginForm = document.getElementById('login-form');
+       const signupForm = document.getElementById('signup-form');
+       const formTitle = document.getElementById('form-title');
+       const toggleButton = document.getElementById('toggle-form-button');
+       const toggleText = document.getElementById('toggle-text');
+       const errorMessage = document.getElementById('error-message');
+       const errorText = document.getElementById('error-text');
 
-    const loginPasswordField = document.getElementById('login-password');
-    const loginPasswordToggle = document.getElementById('login-password-toggle');
-    const loginEyeOpen = document.getElementById('login-eye-open');
-    const loginEyeClosed = document.getElementById('login-eye-closed');
-    const loginButton = document.getElementById('login-button');
-    const loginSpinner = document.getElementById('login-spinner');
+       const loginPasswordField = document.getElementById('login-password');
+       const loginPasswordToggle = document.getElementById('login-password-toggle');
+       const loginEyeOpen = document.getElementById('login-eye-open');
+       const loginEyeClosed = document.getElementById('login-eye-closed');
+       const loginButton = document.getElementById('login-button');
+       const loginSpinner = document.getElementById('login-spinner');
 
-    const signupPassword = document.getElementById('signup-password');
-    const confirmPassword = document.getElementById('confirm-password');
-    const passwordMatchError = document.getElementById('password-match-error');
-    const signupButton = document.getElementById('signup-button');
-    const signupSpinner = document.getElementById('signup-spinner');
+       const signupPassword = document.getElementById('signup-password');
+       const confirmPassword = document.getElementById('confirm-password');
+       const passwordMatchError = document.getElementById('password-match-error');
+       const signupButton = document.getElementById('signup-button');
+       const signupSpinner = document.getElementById('signup-spinner');
 
-    let isLoginFormActive = true;
+       let isLoginFormActive = true;
 
-    function showError(message) {
-        errorText.textContent = message;
-        errorMessage.classList.remove('hidden');
-    }
+       function showError(message) {
+          errorText.textContent = message;
+          errorMessage.classList.remove('hidden');
+       }
 
-    function hideError() {
-        errorMessage.classList.add('hidden');
-    }
-
-    function togglePasswordVisibility(field, openIcon, closedIcon) {
-        const isPassword = field.type === 'password';
-        field.type = isPassword ? 'text' : 'password';
-        openIcon.classList.toggle('hidden', !isPassword);
-        closedIcon.classList.toggle('hidden', isPassword);
-    }
-
-    function toggleForm() {
-        hideError();
-        if (isLoginFormActive) {
-            formTitle.textContent = 'Admin Registration';
-            loginForm.classList.add('hidden');
-            signupForm.classList.remove('hidden');
-            toggleText.textContent = 'Already have an account?';
-            toggleButton.textContent = 'Log In';
-        } else {
-            formTitle.textContent = 'Super Admin Login';
-            signupForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-            toggleText.textContent = 'New to the system?';
-            toggleButton.textContent = 'Create an Admin Account';
+        function hideError() {
+         errorMessage.classList.add('hidden');
         }
-        isLoginFormActive = !isLoginFormActive;
-    }
 
-    toggleButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleForm();
-    });
+        function togglePasswordVisibility(field, openIcon, closedIcon) {
+          const isPassword = field.type === 'password';
+          field.type = isPassword ? 'text' : 'password';
+          openIcon.classList.toggle('hidden', !isPassword);
+          closedIcon.classList.toggle('hidden', isPassword);
+        }
 
-    loginPasswordToggle.addEventListener('click', () => {
-        togglePasswordVisibility(loginPasswordField, loginEyeOpen, loginEyeClosed);
-    });
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordMinLength = 8;
-
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        loginButton.disabled = true;
-        loginSpinner.classList.remove('hidden');
-        hideError();
-
-        setTimeout(() => {
-            const email = document.getElementById('login-email').value.trim();
-            const password = loginPasswordField.value.trim();
-
-            if (!emailPattern.test(email)) {
-                showError('Invalid email format.');
-            } else if (password.length < passwordMinLength) {
-                showError('Password too short. Minimum 8 characters.');
+        function toggleForm() {
+           hideError();
+            if (isLoginFormActive) {
+              formTitle.textContent = 'Admin Registration';
+              loginForm.classList.add('hidden');
+              signupForm.classList.remove('hidden');
+              toggleText.textContent = 'Already have an account?';
+              toggleButton.textContent = 'Log In';
             } else {
-                window.location.href = 'dashboard.html';
+              formTitle.textContent = 'Super Admin Login';
+              signupForm.classList.add('hidden');
+              loginForm.classList.remove('hidden');
+              toggleText.textContent = 'New to the system?';
+              toggleButton.textContent = 'Create an Admin Account';
+            }
+              isLoginFormActive = !isLoginFormActive;
+        }
+
+        toggleButton.addEventListener('click', (e) => {
+           e.preventDefault();
+           toggleForm();
+        });
+
+        loginPasswordToggle.addEventListener('click', () => {
+           togglePasswordVisibility(loginPasswordField, loginEyeOpen, loginEyeClosed);
+        });
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordMinLength = 8;
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginButton.disabled = true;
+            loginSpinner.classList.remove('hidden');
+            hideError();
+
+            setTimeout(() => {
+                const email = document.getElementById('login-email').value.trim();
+                const password = loginPasswordField.value.trim();
+
+                if (!emailPattern.test(email)) {
+                  showError('Invalid email format.');
+                } else if (password.length < passwordMinLength) {
+                  showError('Password too short. Minimum 8 characters.');
+                } else {
+                  window.location.href = 'dashboard.html';
+                }
+
+                loginButton.disabled = false;
+                loginSpinner.classList.add('hidden');
+            }, 1000);
+        });
+
+        function checkPasswordMatch() {
+           const match = signupPassword.value === confirmPassword.value;
+           passwordMatchError.classList.toggle('hidden', match);
+           signupButton.disabled = !match || !signupPassword.value || !confirmPassword.value;
+           return match;
+        }
+
+        signupPassword.addEventListener('input', checkPasswordMatch);
+        confirmPassword.addEventListener('input', checkPasswordMatch);
+
+        signupForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          hideError();
+
+            if (!checkPasswordMatch()) {
+              showError('Passwords must match.');
+              return;
             }
 
-            loginButton.disabled = false;
-            loginSpinner.classList.add('hidden');
-        }, 1000);
-    });
+            if (signupPassword.value.length < 8) {
+              showError('Password must be at least 8 characters.');
+              return;
+            }
 
-    function checkPasswordMatch() {
-        const match = signupPassword.value === confirmPassword.value;
-        passwordMatchError.classList.toggle('hidden', match);
-        signupButton.disabled = !match || !signupPassword.value || !confirmPassword.value;
-        return match;
-    }
+            signupButton.disabled = true;
+            signupSpinner.classList.remove('hidden');
 
-    signupPassword.addEventListener('input', checkPasswordMatch);
-    confirmPassword.addEventListener('input', checkPasswordMatch);
+            setTimeout(() => {
+               const name = document.getElementById('signup-name').value;
+               const email = document.getElementById('signup-email').value;
+               const password = signupPassword.value;
 
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        hideError();
+               console.log(`New Admin Registered: ${name}, ${email}`);
+               alert('Registration Successful! You can now log in.');
 
-        if (!checkPasswordMatch()) {
-            showError('Passwords must match.');
-            return;
-        }
+               toggleForm(); 
 
-        if (signupPassword.value.length < 8) {
-            showError('Password must be at least 8 characters.');
-            return;
-        }
-
-        signupButton.disabled = true;
-        signupSpinner.classList.remove('hidden');
-
-        setTimeout(() => {
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = signupPassword.value;
-
-            console.log(`New Admin Registered: ${name}, ${email}`);
-            alert('Registration Successful! You can now log in.');
-
-            toggleForm(); 
-
-            signupButton.disabled = false;
-            signupSpinner.classList.add('hidden');
-        }, 2000);
-    });
-</script>
-
-
+               signupButton.disabled = false;
+               signupSpinner.classList.add('hidden');
+            }, 2000);
+        });
+    </script>
 </body>
 </html>

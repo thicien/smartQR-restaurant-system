@@ -13,8 +13,6 @@
 <body class="bg-gray-100 font-sans antialiased">
 
 <div class="flex h-screen overflow-hidden">
-
-    <!-- Sidebar -->
     <div class="flex flex-col w-64 bg-gray-800 text-white shadow-lg">
         <div class="h-16 flex items-center justify-center border-b border-gray-700">
             <span class="text-xl font-semibold">Super Admin</span>
@@ -26,16 +24,30 @@
                 </svg>
                 Dashboard
             </a>
-            <a href="#" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+
+
+            <a href="list.html" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
                 <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2h14zm-4 0a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"></path>
                 </svg>
                 Restaurants
             </a>
+            <a href="sub.html" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm6-6h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v-10z"/>
+                </svg>
+                Subscriptions
+            </a>
+
+            <a href="adminSettings.html" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.657-1.343-3-3-3s-3 1.343-3 3 1.343 3 3 3 3-1.343 3-3zM12 14v7m-6-7v7m12-7v7" />
+                </svg>
+                Admin Settings
+            </a>
+
         </nav>
     </div>
-
-    <!-- Main content -->
     <div class="flex-1 flex flex-col overflow-auto">
         <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-md">
             <h1 class="text-xl font-semibold text-gray-800">Overview</h1>
@@ -54,8 +66,6 @@
         </header>
 
         <main class="flex-1 p-6 overflow-y-auto">
-
-            <!-- Metric Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white p-5 rounded-lg shadow-lg border-l-4 border-indigo-500">
                     <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Restaurants</p>
@@ -94,7 +104,6 @@
                 </div>
             </div>
 
-            <!-- Quick Actions -->
             <div class="mb-8 flex flex-wrap gap-4">
                 <button onclick="addRestaurant()" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 ease-in-out flex items-center">
                     <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -102,27 +111,29 @@
                     </svg>
                     Add Restaurant
                 </button>
-                <button onclick="approveAllPending()" class="px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg shadow-md hover:bg-yellow-600 transition duration-150 ease-in-out flex items-center">
+
+                <button onclick="openPendingList()" class="px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg shadow-md hover:bg-yellow-600 transition duration-150 ease-in-out flex items-center">
                     <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.405L4 17h5m6 0v2a3 3 0 11-6 0v-2m6 0H9" />
                     </svg>
                     Approve Pending Restaurants
                 </button>
+
                 <button onclick="exportData()" class="px-4 py-2 bg-gray-600 text-white font-medium rounded-lg shadow-md hover:bg-gray-700 transition duration-150 ease-in-out flex items-center">
                     <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                     Export Data
                 </button>
-                <button onclick="viewAnalytics()" class="px-4 py-2 bg-green-500 text-white font-medium rounded-lg shadow-md hover:bg-green-600 transition duration-150 ease-in-out flex items-center">
+
+                <button onclick="window.location.href='analytics.html'" class="px-4 py-2 bg-green-500 text-white font-medium rounded-lg shadow-md hover:bg-green-600 transition duration-150 ease-in-out flex items-center">
                     <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm6-6h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v-10z" />
                     </svg>
                     View Analytics
                 </button>
-            </div>
 
-            <!-- Large Revenue Chart -->
+            </div>
             <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200 mb-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Revenue Trend (Last 6 Months)</h3>
                 <div class="h-80">
@@ -130,22 +141,17 @@
                 </div>
             </div>
 
-            <!-- Restaurants Growth Chart -->
             <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Restaurants Growth (Last 12 Months)</h3>
                 <div class="h-80">
                     <canvas id="restaurantsGrowthChart"></canvas>
                 </div>
             </div>
-
         </main>
     </div>
 </div>
 
 <script>
-    // =========================
-    // Simulated Data
-    // =========================
     let restaurants = [
         {name: "Sunshine Diner", status:"approved"},
         {name: "Moonlight Cafe", status:"pending"},
@@ -172,9 +178,6 @@
         document.getElementById("monthlyRevenue").innerText = monthlyRevenue.toLocaleString();
     }
 
-    // =========================
-    // Sparkline Charts
-    // =========================
     function createSparkline(ctxId, data, color) {
         new Chart(document.getElementById(ctxId).getContext('2d'), {
             type: 'line',
@@ -188,9 +191,6 @@
     createSparkline('activeSubscriptionsChart', [20,22,25,28,30,35], 'rgb(34,197,94)');
     createSparkline('revenueChart', [1000,1200,1100,1500,1800,2000], 'rgb(59,130,246)');
 
-    // =========================
-    // Large Revenue Chart
-    // =========================
     new Chart(document.getElementById('largeRevenueChart').getContext('2d'), {
         type: 'bar',
         data: {
@@ -200,9 +200,6 @@
         options:{responsive:true, maintainAspectRatio:false, scales:{y:{beginAtZero:true}}}
     });
 
-    // =========================
-    // Restaurants Growth Chart
-    // =========================
     new Chart(document.getElementById('restaurantsGrowthChart').getContext('2d'), {
         type:'line',
         data:{
@@ -212,9 +209,6 @@
         options:{responsive:true, maintainAspectRatio:false, scales:{y:{beginAtZero:true}}}
     });
 
-    // =========================
-    // Quick Actions
-    // =========================
     function addRestaurant() {
         const name = prompt("Enter new restaurant name:");
         if(!name) return;
@@ -223,10 +217,8 @@
         alert(`Restaurant "${name}" added and pending approval.`);
     }
 
-    function approveAllPending() {
-        restaurants.forEach(r=>{if(r.status==="pending") r.status="approved";});
-        updateMetrics();
-        alert("All pending restaurants approved.");
+    function openPendingList() {
+        window.location.href = "list.html?filter=pending";
     }
 
     function exportData() {
@@ -247,10 +239,15 @@
     function viewAnalytics() {
         alert("Redirect to analytics page...");
     }
-    
+
     updateMetrics();
 
+    function viewAdminSettings() {
+    window.location.href = "adminSettings.html"; // Replace with the filename of your Admin Settings page
+}
 </script>
 </body>
 </html>
+
+
 
